@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Wedding in Paris</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fdfbf7; /* Ivory/Cream */
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .parallax {
+            position: relative;
+            overflow: hidden;
+        }
+        .parallax-bg {
+            position: absolute;
+            top: -60%;
+            left: 0;
+            right: 0;
+            bottom: -60%;
+            background-image: url('parallax.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            will-change: transform;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+        <div class="absolute inset-0 bg-[url('hero.png')] bg-cover bg-center"></div>
+        
+        <div class="relative z-20 px-4">
+            <h2 class="text-xl md:text-2xl tracking-[0.3em] uppercase mb-4 animate-fade-in" data-i18n="hero.subtitle">Join us for the wedding of</h2>
+            <h1 class="text-5xl md:text-8xl font-light mb-6" data-i18n="hero.names">Alejandra and Adrian</h1>
+            <div class="h-1 w-24 bg-[#c5a059] mx-auto my-6"></div>
+            <p class="text-xl md:text-2xl font-light italic tracking-widest">Paris, France</p>
+            <p class="mt-8 text-lg opacity-90" data-i18n="hero.date">October 10th, 2026</p>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <span class="iconify w-6 h-6" data-icon="heroicons:arrow-down"></span>
+        </div>
+    </section>
+
+    <!-- Details Section -->
+    <section class="py-20 px-6 max-w-4xl mx-auto text-center">
+        <div class="mb-16">
+            <span class="text-[#c5a059] uppercase tracking-widest text-sm" data-i18n="details.label">The Celebration</span>
+            <h2 class="text-4xl md:text-5xl mt-2 mb-8" data-i18n="details.title">The Details</h2>
+            <p class="text-lg text-gray-600 leading-relaxed mb-12" data-i18n="details.intro">We are so excited to celebrate our special day with you on the Seine. Please find the details for our celebration below.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-12">
+            <!-- Date & Time -->
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
+                    <span class="iconify w-6 h-6" data-icon="heroicons:calendar-days"></span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2" data-i18n="details.when">When</h3>
+                <p class="text-gray-600" data-i18n="hero.date">October 10th, 2026</p>
+                <p class="text-gray-600 text-sm" data-i18n="details.time">6:00 PM</p>
+            </div>
+
+            <!-- Location -->
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
+                    <span class="iconify w-6 h-6" data-icon="heroicons:map-pin"></span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2" data-i18n="details.where">Where</h3>
+                <p class="text-gray-600">Le Rive Droite</p>
+                <p class="text-gray-600 text-sm">55, Quai du Point du Jour</p>
+                <p class="text-gray-600 text-sm">Paris, France</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=55+Quai+du+Point+du+Jour+Paris+France" target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-sm underline underline-offset-2 text-[#c5a059]" data-i18n="details.mapsLink">View on Google Maps →</a>
+            </div>
+
+            <!-- Getting There -->
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
+                    <span class="iconify w-6 h-6" data-icon="heroicons:paper-airplane"></span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4" data-i18n="details.travel">Travel</h3>
+                <div class="text-gray-600 text-sm text-left space-y-3">
+                    <div>
+                        <p class="font-semibold text-gray-700" data-i18n="travel.metroLabel">By Metro</p>
+                        <p data-i18n="travel.metroDesc">Station Marcel Sembat (Line 9, direction Pont de Sèvres)</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-700" data-i18n="travel.busLabel">By Bus</p>
+                        <p data-i18n="travel.busDesc">Bus 123, direction Clamart / Pont de Billancourt. Exit at Pont de Billancourt, before crossing the Seine. Take Quai du Point du Jour on the left at the intersection.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-700" data-i18n="travel.carLabel">By Car</p>
+                        <p data-i18n="travel.carDesc">From Porte de Saint-Cloud, 300m from the TF1 Tower, right bank of the Seine. Head towards Quartier du Point du Jour via Avenue Pierre Grenier. Turn left at the intersection onto Boulevard de la République. At the traffic light before the Seine, turn right.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Section (River View) -->
+    <section class="parallax h-[40vh]">
+        <div class="parallax-bg" id="parallax-bg"></div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section class="py-20 px-6 text-center bg-white">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-4xl mb-6">RSVP</h2>
+            
+            <div id="rsvp-container">
+                <!-- Button will be enabled/disabled via JS -->
+                <button id="rsvp-button" disabled class="px-10 py-4 bg-gray-300 text-white rounded-full text-lg font-semibold cursor-not-allowed transition-all duration-300" data-i18n="rsvp.soon">
+                    RSVP Coming Soon
+                </button>
+            </div>
+            
+            <p id="rsvp-deadline" class="text-gray-600 hidden">Please kindly respond by [RSVP].</p>
+            <p class="mt-10 mb-10 text-gray-600" data-i18n="rsvp.celebrate">We look forward to celebrating with you!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a2a3a] text-white py-10 text-center">
+        <p class="serif italic text-xl mb-4" data-i18n="footer.tagline">See you on the Seine</p>
+        <div class="w-12 h-0.5 bg-[#c5a059] mx-auto mb-4"></div>
+        <p class="text-xs uppercase tracking-[0.2em] opacity-50">&copy; 2026 Alejandra and Adrian</p>
+        <p class="text-xs opacity-70 mt-2">Made with ❤️ in Paraguay 🇵🇾</p>
+    </footer>
+
+    <script>
+        // ─── i18n ─────────────────────────────────────────────────────
+        const translations = {
+            en: {
+                'page.title':      'Our Wedding in Paris',
+                'hero.subtitle':   'Join us for the wedding of',
+                'hero.names':      'Alejandra and Adrian',
+                'hero.date':       'October 10th, 2026',
+                'details.label':   'The Celebration',
+                'details.title':   'The Details',
+                'details.intro':   'We are so excited to celebrate our special day with you on the Seine. Please find the details for our celebration below.',
+                'details.when':    'When',
+                'details.where':   'Where',
+                'details.mapsLink':'View on Google Maps →',
+                'details.travel':  'Travel',
+                'travel.metroLabel': 'By Metro',
+                'travel.metroDesc':  'Station Marcel Sembat (Line 9, direction Pont de Sèvres)',
+                'travel.busLabel': 'By Bus',
+                'travel.busDesc':  'Bus 123, direction Clamart / Pont de Billancourt. Exit at Pont de Billancourt, before crossing the Seine. Take Quai du Point du Jour on the left at the intersection.',
+                'travel.carLabel': 'By Car',
+                'travel.carDesc':  'From Porte de Saint-Cloud, 300m from the TF1 Tower, right bank of the Seine. Head towards Quartier du Point du Jour via Avenue Pierre Grenier. Turn left at the intersection onto Boulevard de la République. At the traffic light before the Seine, turn right.',
+                'rsvp.soon':       'RSVP Coming Soon',
+                'rsvp.open':       'RSVP Now',
+                'rsvp.openMsg':    'RSVP is now open!',
+                'rsvp.celebrate':  'We look forward to celebrating with you!',
+                'details.time':    '6:00 PM',
+                'footer.tagline':  'See you on the Seine',
+            },
+            fr: {
+                'page.title':      'Notre Mariage à Paris',
+                'hero.subtitle':   'Rejoignez-nous pour le mariage de',
+                'hero.names':      'Alejandra et Adrian',
+                'hero.date':       '10 octobre 2026',
+                'details.label':   'La Célébration',
+                'details.title':   'Les Détails',
+                'details.intro':   'Nous sommes très heureux de célébrer ce jour si spécial avec vous sur la Seine. Retrouvez ci-dessous les informations de notre célébration.',
+                'details.when':    'Quand',
+                'details.where':   'Où',
+                'details.mapsLink':'Voir sur Google Maps →',
+                'details.travel':  'Comment venir',
+                'travel.metroLabel': 'En Métro',
+                'travel.metroDesc':  'Station Marcel Sembat (Ligne 9, direction Pont de Sèvres)',
+                'travel.busLabel': 'En Bus',
+                'travel.busDesc':  'Bus 123, direction Clamart / Pont de Billancourt. Descendre à la station Pont de Billancourt, avant de traverser la Seine. Prendre le Quai du Point du Jour sur la gauche au carrefour.',
+                'travel.carLabel': 'En Voiture',
+                'travel.carDesc':  "Depuis la Porte de Saint-Cloud, à 300 mètres de la Tour TF1, rive droite de la Seine. Direction Quartier du Point du Jour via l'avenue Pierre Grenier. Prendre à gauche au carrefour, boulevard de la République. Avant la Seine, au feu, tourner à droite.",
+                'rsvp.soon':       'RSVP Bientôt disponible',
+                'rsvp.open':       'Confirmer ma présence',
+                'rsvp.openMsg':    'Les RSVP sont ouverts !',
+                'rsvp.celebrate':  'Nous avons hâte de fêter ça avec vous !',                'details.time':    '18h00',                'footer.tagline':  'À bientôt sur la Seine',
+            },
+            es: {
+                'page.title':      'Nuestra Boda en París',
+                'hero.subtitle':   'Acompañanos a la boda de',
+                'hero.names':      'Alejandra y Adrian',
+                'hero.date':       '10 de octubre de 2026',
+                'details.label':   'La Celebración',
+                'details.title':   'Los Detalles',
+                'details.intro':   'Estamos muy emocionados de celebrar este día tan especial con ustedes en el Sena. Acá abajo encontrarán todos los detalles de nuestra celebración.',
+                'details.when':    'Cuándo',
+                'details.where':   'Dónde',
+                'details.mapsLink':'Ver en Google Maps →',
+                'details.travel':  'Cómo llegar',
+                'travel.metroLabel': 'En Metro',
+                'travel.metroDesc':  'Estación Marcel Sembat (Línea 9, dirección Pont de Sèvres)',
+                'travel.busLabel': 'En Colectivo',
+                'travel.busDesc':  'Colectivo 123, dirección Clamart / Pont de Billancourt. Bajarse en Pont de Billancourt, antes de cruzar el Sena. Tomar el Quai du Point du Jour a la izquierda en el cruce.',
+                'travel.carLabel': 'En Auto',
+                'travel.carDesc':  'Desde Porte de Saint-Cloud, a 300 m de la Torre TF1, orilla derecha del Sena. Dirección Quartier du Point du Jour por la Avenue Pierre Grenier. Girar a la izquierda en el cruce, Boulevard de la République. Ante el semáforo antes del Sena, girar a la derecha.',
+                'rsvp.soon':       'RSVP Próximamente',
+                'rsvp.open':       'Confirmar asistencia',
+                'rsvp.openMsg':    '¡El RSVP ya está abierto!',
+                'rsvp.celebrate':  '¡Esperamos celebrarlo con ustedes!',
+                'details.time':    '18:00',
+                'footer.tagline':  'Nos vemos en el Sena',
+            }
+        };
+
+        function detectLang() {
+            const param = new URLSearchParams(window.location.search).get('lang');
+            if (param && translations[param]) return param;
+            const langs = navigator.languages || [navigator.language || 'en'];
+            for (const l of langs) {
+                const code = l.slice(0, 2).toLowerCase();
+                if (translations[code]) return code;
+            }
+            return 'en';
+        }
+
+        function applyTranslations(lang) {
+            const t = translations[lang];
+            document.documentElement.lang = lang;
+            document.title = t['page.title'];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+            return t;
+        }
+
+        const lang = detectLang();
+        const t = applyTranslations(lang);
+
+        // ─── Parallax ─────────────────────────────────────────────────
+        const parallaxBg = document.getElementById('parallax-bg');
+        const parallaxSection = parallaxBg ? parallaxBg.closest('.parallax') : null;
+        window.addEventListener('scroll', function () {
+            if (!parallaxSection || !parallaxBg) return;
+            const rect = parallaxSection.getBoundingClientRect();
+            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+            parallaxBg.style.transform = 'translateY(' + (progress * 60 - 30) + '%)';
+        });
+
+        // ─── RSVP ─────────────────────────────────────────────────────
+        const releaseDate = new Date('2026-07-15T00:00:00');
+        const today = new Date();
+        const rsvpButton = document.getElementById('rsvp-button');
+        const rsvpDateMsg = document.getElementById('rsvp-deadline');
+
+        if (today >= releaseDate) {
+            rsvpButton.disabled = false;
+            rsvpButton.classList.remove('bg-gray-300', 'cursor-not-allowed');
+            rsvpButton.classList.add('bg-[#c5a059]', 'hover:bg-[#b38f48]', 'shadow-lg', 'hover:shadow-xl');
+            rsvpButton.textContent = t['rsvp.open'];
+            if (rsvpDateMsg) rsvpDateMsg.textContent = t['rsvp.openMsg'];
+            rsvpButton.onclick = function () {
+                // window.location.href = 'YOUR_RSVP_LINK_HERE';
+            };
+        }
+    </script>
+</body>
+</html>
