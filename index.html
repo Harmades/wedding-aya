@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: 'Lato', sans-serif;
@@ -17,6 +18,104 @@
         h1, h2, h3, .serif {
             font-family: 'Playfair Display', serif;
         }
+
+        /* ─── Scroll Reveal ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ─── Hero ─── */
+        .hero-overlay {
+            background: linear-gradient(
+                135deg,
+                rgba(0,0,0,0.55) 0%,
+                rgba(197,160,89,0.25) 50%,
+                rgba(0,0,0,0.55) 100%
+            );
+        }
+        .hero-names {
+            background: linear-gradient(135deg, #fff 0%, #f5e6c8 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseGold {
+            0%, 100% { opacity: 0.6; }
+            50%      { opacity: 1; }
+        }
+        .hero-subtitle {
+            animation: fadeInDown 1s ease-out 0.3s both;
+        }
+        .hero-names-anim {
+            animation: fadeInDown 1s ease-out 0.5s both;
+        }
+        .hero-divider {
+            animation: fadeInUp 0.8s ease-out 0.7s both;
+        }
+        .hero-location {
+            animation: fadeInUp 0.8s ease-out 0.9s both;
+        }
+        .hero-date {
+            animation: fadeInUp 0.8s ease-out 1.1s both;
+        }
+
+        /* ─── Decorative Gold Line ─── */
+        .gold-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c5a059, transparent);
+            width: 80px;
+            margin: 0 auto;
+        }
+        .gold-line-wide {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c5a059, transparent);
+            width: 200px;
+            margin: 3rem auto;
+        }
+
+        /* ─── Detail Cards ─── */
+        .detail-icon {
+            transition: all 0.4s ease;
+        }
+        .detail-card:hover .detail-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(197,160,89,0.3);
+        }
+
+        /* ─── Floating Hearts ─── */
+        @keyframes floatHeart {
+            0%   { transform: translateY(0) scale(1); opacity: 0; }
+            20%  { opacity: 0.6; }
+            80%  { opacity: 0.6; }
+            100% { transform: translateY(-120px) scale(0.5); opacity: 0; }
+        }
+        .floating-heart {
+            position: absolute;
+            color: #c5a059;
+            animation: floatHeart 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* ─── Parallax ─── */
         .parallax {
             position: relative;
             overflow: hidden;
@@ -39,35 +138,42 @@
 
     <!-- Hero Section -->
     <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
-        <div class="absolute inset-0 bg-black/40 z-10"></div>
+        <div class="absolute inset-0 hero-overlay z-10"></div>
         <div class="absolute inset-0 bg-[url('hero.png')] bg-cover bg-center"></div>
         
         <div class="relative z-20 px-4">
-            <h2 class="text-xl md:text-2xl tracking-[0.3em] uppercase mb-4 animate-fade-in" data-i18n="hero.subtitle">Join us for our wedding</h2>
-            <h1 class="text-5xl md:text-8xl font-light mb-6" data-i18n="hero.names">Alejandra and Adrian</h1>
-            <div class="h-1 w-24 bg-[#c5a059] mx-auto my-6"></div>
-            <p class="text-xl md:text-2xl font-light italic tracking-widest">Paris, France</p>
-            <p class="mt-8 text-lg opacity-90" data-i18n="hero.date">October 10th, 2026</p>
+            <h2 class="hero-subtitle text-xl md:text-2xl tracking-[0.3em] uppercase mb-4" data-i18n="hero.subtitle">Join us to celebrate our wedding</h2>
+            <h1 class="hero-names-anim hero-names text-5xl md:text-8xl font-light mb-6" data-i18n="hero.names">Alejandra &amp; Adrian</h1>
+            <div class="hero-divider h-1 w-24 bg-[#c5a059] mx-auto my-6"></div>
+            <p class="hero-location text-xl md:text-2xl font-light italic tracking-widest">Paris, France</p>
+            <p class="hero-date mt-8 text-lg opacity-90" data-i18n="hero.date">October 10th, 2026</p>
         </div>
         
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20">
             <span class="iconify w-6 h-6" data-icon="heroicons:arrow-down"></span>
         </div>
+
+        <!-- Floating decorative hearts -->
+        <span class="floating-heart" style="left:10%; top:60%; animation-delay:0s; font-size:14px;">♥</span>
+        <span class="floating-heart" style="left:85%; top:50%; animation-delay:1.5s; font-size:10px;">♥</span>
+        <span class="floating-heart" style="left:20%; top:75%; animation-delay:3s; font-size:12px;">♥</span>
+        <span class="floating-heart" style="left:75%; top:70%; animation-delay:0.8s; font-size:16px;">♥</span>
     </section>
 
     <!-- Details Section -->
     <section class="py-20 px-6 max-w-4xl mx-auto text-center">
-        <div class="mb-16">
-            <span class="text-[#c5a059] uppercase tracking-widest text-sm" data-i18n="details.label">The Celebration</span>
+        <div class="mb-16 reveal">
+            <span class="text-[#c5a059] uppercase tracking-widest text-sm" data-i18n="details.label">Celebration</span>
             <h2 class="text-4xl md:text-5xl mt-2 mb-8" data-i18n="details.title">The Details</h2>
-            <p class="text-lg text-gray-600 leading-relaxed mb-12" data-i18n="details.intro">We are so excited to celebrate our special day with you on the Seine. Please find the details for our celebration below.</p>
+            <div class="gold-line"></div>
+            <p class="text-lg text-gray-600 leading-relaxed mt-8 mb-12 max-w-2xl mx-auto" data-i18n="details.intro">We are so excited to celebrate our special day with you on the Seine. Please find the details for our celebration below.</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-12">
             <!-- Date & Time -->
-            <div class="flex flex-col items-center">
-                <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
-                    <span class="iconify w-6 h-6" data-icon="heroicons:calendar-days"></span>
+            <div class="detail-card flex flex-col items-center reveal reveal-delay-1">
+                <div class="detail-icon w-14 h-14 border-2 border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059] bg-white/80 transition-all duration-300">
+                    <span class="iconify w-7 h-7" data-icon="heroicons:calendar-days"></span>
                 </div>
                 <h3 class="text-xl font-semibold mb-2" data-i18n="details.when">When</h3>
                 <p class="text-gray-600" data-i18n="hero.date">October 10th, 2026</p>
@@ -75,24 +181,24 @@
             </div>
 
             <!-- Location -->
-            <div class="flex flex-col items-center">
-                <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
-                    <span class="iconify w-6 h-6" data-icon="heroicons:map-pin"></span>
+            <div class="detail-card flex flex-col items-center reveal reveal-delay-2">
+                <div class="detail-icon w-14 h-14 border-2 border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059] bg-white/80 transition-all duration-300">
+                    <span class="iconify w-7 h-7" data-icon="heroicons:map-pin"></span>
                 </div>
                 <h3 class="text-xl font-semibold mb-2" data-i18n="details.where">Where</h3>
                 <p class="text-gray-600">Le Rive Droite</p>
                 <p class="text-gray-600 text-sm">55, Quai du Point du Jour</p>
                 <p class="text-gray-600 text-sm">Paris, France</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=55+Quai+du+Point+du+Jour+Paris+France" target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-sm underline underline-offset-2 text-[#c5a059]" data-i18n="details.mapsLink">View on Google Maps →</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=55+Quai+du+Point+du+Jour+Paris+France" target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-sm underline underline-offset-2 text-[#c5a059] hover:text-[#b38f48] transition-colors" data-i18n="details.mapsLink">View on Google Maps →</a>
             </div>
 
             <!-- Getting There -->
-            <div class="flex flex-col items-center">
-                <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
-                    <span class="iconify w-6 h-6" data-icon="heroicons:paper-airplane"></span>
+            <div class="detail-card flex flex-col items-center reveal reveal-delay-3">
+                <div class="detail-icon w-14 h-14 border-2 border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059] bg-white/80 transition-all duration-300">
+                    <span class="iconify w-7 h-7" data-icon="heroicons:paper-airplane"></span>
                 </div>
                 <h3 class="text-xl font-semibold mb-4" data-i18n="details.travel">Travel</h3>
-                <div class="text-gray-600 text-sm text-left space-y-3">
+                <div class="text-gray-600 text-sm text-left space-y-3 px-4">
                     <div>
                         <p class="font-semibold text-gray-700" data-i18n="travel.metroLabel">By Metro</p>
                         <p data-i18n="travel.metroDesc">Station Marcel Sembat (Line 9, direction Pont de Sèvres)</p>
@@ -110,9 +216,9 @@
         </div>
 
         <!-- Dress Code -->
-        <div class="mt-16 pt-16 border-t border-gray-200 flex flex-col items-center">
-            <div class="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059]">
-                <span class="iconify w-6 h-6" data-icon="mdi:tie"></span>
+        <div class="mt-16 pt-16 border-t border-gray-200 flex flex-col items-center reveal">
+            <div class="detail-icon w-14 h-14 border-2 border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059] bg-white/80 transition-all duration-300">
+                <span class="iconify w-7 h-7" data-icon="mdi:tie"></span>
             </div>
             <h3 class="text-xl font-semibold mb-2" data-i18n="dressCode.label">Dress Code</h3>
             <p class="text-gray-600" data-i18n="dressCode.text">Elegant attire</p>
@@ -120,33 +226,106 @@
     </section>
 
     <!-- Parallax Section (River View) -->
-    <section class="parallax h-[40vh]">
+    <section class="parallax h-[50vh]">
         <div class="parallax-bg" id="parallax-bg"></div>
     </section>
 
     <!-- RSVP Section -->
-    <section class="py-20 px-6 text-center bg-white">
-        <div class="max-w-2xl mx-auto">
-            <h2 class="text-4xl mb-6">RSVP</h2>
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-2xl mx-auto reveal">
+            <h2 class="text-4xl md:text-5xl mb-4 text-center" style="font-family: 'Playfair Display', serif;">RSVP</h2>
+            <div class="gold-line mb-8"></div>
             
-            <div id="rsvp-container">
-                <!-- Button will be enabled/disabled via JS -->
-                <button id="rsvp-button" disabled class="px-10 py-4 bg-gray-300 text-white rounded-full text-lg font-semibold cursor-not-allowed transition-all duration-300" data-i18n="rsvp.soon">
-                    RSVP Coming Soon
+            <div class="text-center">
+                <button id="rsvp-button" class="px-10 py-4 bg-[#c5a059] hover:bg-[#b38f48] text-white rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" data-i18n="rsvp.open">
+                    RSVP Now
                 </button>
             </div>
-            
-            <p id="rsvp-deadline" class="text-gray-600 hidden">Please kindly respond by [RSVP].</p>
-            <p class="mt-10 mb-10 text-gray-600" data-i18n="rsvp.celebrate">We look forward to celebrating with you!</p>
+
+            <!-- Step 1: Invitation Code (toggled by button) -->
+            <div id="rsvp-step-code" class="hidden mt-8 max-w-md mx-auto">
+                <p class="text-gray-600 mb-4 text-sm" data-i18n="rsvp.codeHint">Enter your invitation code to get started.</p>
+                <input type="text" id="rsvp-code-input" placeholder="e.g. WEDDING-001"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#c5a059] focus:border-transparent outline-none transition-all mb-3 text-left">
+                <p id="rsvp-code-error" class="text-red-500 text-sm hidden mb-3 text-left"></p>
+                <button id="rsvp-lookup-btn"
+                        class="w-full py-3 bg-[#c5a059] text-white rounded-lg font-semibold hover:bg-[#b38f48] transition-all shadow-md hover:shadow-lg">
+                    <span data-i18n="rsvp.lookup">Look up invitation</span>
+                </button>
+            </div>
+
+            <!-- Step 2: RSVP Form -->
+            <div id="rsvp-step-form" class="hidden mt-8 max-w-md mx-auto text-left">
+                <!-- Guest Greeting -->
+                <div id="rsvp-greeting" class="mb-6 p-4 bg-[#fdfbf7] rounded-lg border border-gray-200 text-center">
+                    <p class="text-lg serif" data-i18n="rsvp.greeting">Welcome,</p>
+                    <p id="rsvp-guest-name" class="text-xl font-semibold text-[#c5a059]"></p>
+                </div>
+
+                <!-- Attending -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3 text-center" data-i18n="rsvp.attendingLabel">Will you attend?</label>
+                    <div class="flex gap-4">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="attending" value="yes" class="peer hidden">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-[#c5a059] peer-checked:bg-[#fdfbf7] transition-all">
+                                <span class="iconify w-8 h-8 text-green-500 mx-auto mb-1" data-icon="heroicons:check-circle"></span>
+                                <span class="block font-semibold" data-i18n="rsvp.yes">Yes, I'll be there!</span>
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="attending" value="no" class="peer hidden">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-red-400 peer-checked:bg-red-50 transition-all">
+                                <span class="iconify w-8 h-8 text-red-400 mx-auto mb-1" data-icon="heroicons:x-circle"></span>
+                                <span class="block font-semibold" data-i18n="rsvp.no">Sorry, can't make it</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Guest Names (shown when max_guests > 0) -->
+                <div id="rsvp-guests-names-group" class="mb-6 hidden">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="rsvp.guestNamesLabel">Guest names</label>
+                    <p id="rsvp-guest-limit-text" class="text-sm text-gray-500 mb-3"></p>
+                    <p id="rsvp-children-note" class="text-sm text-[#c5a059] mb-3 hidden"><span class="iconify w-4 h-4 inline-block align-text-bottom" data-icon="heroicons:heart"></span> <span data-i18n="rsvp.childrenWelcome">Children are welcome!</span></p>
+                    <div id="rsvp-guest-names-container"></div>
+                    <button id="rsvp-add-guest-btn" type="button"
+                            class="mt-2 text-sm text-[#c5a059] hover:text-[#b38f48] font-semibold flex items-center gap-1 transition-colors">
+                        <span class="iconify w-5 h-5" data-icon="heroicons:plus-circle"></span>
+                        <span data-i18n="rsvp.addGuest">Add a guest</span>
+                    </button>
+                </div>
+
+                <!-- Allergens -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2" for="rsvp-allergens" data-i18n="rsvp.allergensLabel">Allergens / Dietary restrictions</label>
+                    <textarea id="rsvp-allergens" rows="2"
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#c5a059] focus:border-transparent outline-none transition-all resize-none"
+                              placeholder="" id="rsvp-allergens-placeholder"></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button id="rsvp-submit-btn"
+                        class="w-full py-3 bg-[#c5a059] text-white rounded-lg font-semibold hover:bg-[#b38f48] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span data-i18n="rsvp.submit">Submit RSVP</span>
+                </button>
+                <p id="rsvp-form-error" class="text-red-500 text-sm hidden mt-3"></p>
+                <p id="rsvp-form-success" class="text-green-600 text-sm hidden mt-3"></p>
+            </div>
+
+            <p class="mt-10 text-center text-gray-600" data-i18n="rsvp.celebrate">We look forward to celebrating with you!</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-[#1a2a3a] text-white py-10 text-center">
-        <p class="serif italic text-xl mb-4" data-i18n="footer.tagline">See you on the Seine</p>
-        <div class="w-12 h-0.5 bg-[#c5a059] mx-auto mb-4"></div>
-        <p class="text-xs uppercase tracking-[0.2em] opacity-50">&copy; 2026 Alejandra and Adrian</p>
-        <p class="text-xs opacity-70 mt-2">Made with ❤️ in Paraguay 🇵🇾</p>
+    <footer class="bg-[#1a2a3a] text-white py-16 text-center reveal">
+        <div class="max-w-md mx-auto px-4">
+            <div class="w-16 h-0.5 bg-[#c5a059] mx-auto mb-6"></div>
+            <p class="serif italic text-2xl mb-4" data-i18n="footer.tagline">See you on the Seine</p>
+            <div class="w-12 h-0.5 bg-[#c5a059] mx-auto mb-6"></div>
+            <p class="text-xs uppercase tracking-[0.3em] opacity-50">&copy; 2026 Alejandra &amp; Adrian</p>
+            <p class="text-xs opacity-60 mt-3">Made with ❤️ in Paraguay 🇵🇾</p>
+        </div>
     </footer>
 
     <script>
@@ -154,10 +333,10 @@
         const translations = {
             en: {
                 'page.title':      'Our Wedding in Paris',
-                'hero.subtitle':   'Join us for our wedding',
-                'hero.names':      'Alejandra and Adrian',
+                'hero.subtitle':   'Join us to celebrate our wedding',
+                'hero.names':      'Alejandra & Adrian',
                 'hero.date':       'October 10th, 2026',
-                'details.label':   'The Celebration',
+                'details.label':   'Celebration',
                 'details.title':   'The Details',
                 'details.intro':   'We are so excited to celebrate our special day with you on the Seine. Please find the details for our celebration below.',
                 'details.when':    'When',
@@ -170,10 +349,32 @@
                 'travel.busDesc':  'Bus 123, direction Clamart / Pont de Billancourt. Exit at Pont de Billancourt, before crossing the Seine. Take Quai du Point du Jour on the left at the intersection.',
                 'travel.carLabel': 'By Car',
                 'travel.carDesc':  'From Porte de Saint-Cloud, 300m from the TF1 Tower, right bank of the Seine. Head towards Quartier du Point du Jour via Avenue Pierre Grenier. Turn left at the intersection onto Boulevard de la République. At the traffic light before the Seine, turn right.',
-                'rsvp.soon':       'RSVP Coming Soon',
                 'rsvp.open':       'RSVP Now',
-                'rsvp.openMsg':    'RSVP is now open!',
-                'rsvp.celebrate':  'We look forward to celebrating with you!',
+                'rsvp.celebrate':    'We look forward to celebrating with you!',
+                'rsvp.codeHint':   'Enter your invitation code to get started.',
+                'rsvp.lookup':     'Look up invitation',
+                'rsvp.greeting':   'Welcome,',
+                'rsvp.attendingLabel': 'Will you attend?',
+                'rsvp.yes':        "Yes, I'll be there!",
+                'rsvp.no':         "Sorry, can't make it",
+                'rsvp.guestNamesLabel': 'Guest names',
+                'rsvp.guestNameLabel': 'Guest name',
+                'rsvp.allergensLabel': 'Allergens / Dietary restrictions',
+                'rsvp.allergensPlaceholder': 'e.g. gluten, lactose, nuts...',
+                'rsvp.submit':     'Submit RSVP',
+                'rsvp.addGuest':   'Add a guest',
+                'rsvp.guestLimit':'You can bring up to {extra} additional guest(s) — {total} total including yourself.',
+                'rsvp.you':        'You',
+                'rsvp.childrenWelcome': 'Children are welcome! 🧒 Add them below.',
+                'rsvp.invalidCode':'Invitation code not found. Please check and try again.',
+                'rsvp.error':      'Something went wrong. Please try again later.',
+                'rsvp.success':    'Your RSVP has been submitted successfully! Thank you.',
+                'rsvp.lookupLoad': 'Looking up...',
+                'rsvp.errorNoCode': 'Please enter an invitation code.',
+                'rsvp.errorDbConfig': 'Database not configured.',
+                'rsvp.errorSelectAttending': 'Please select whether you will attend.',
+                'rsvp.errorGuestLimit': 'Guest count exceeds your invitation limit.',
+                'rsvp.submitLoad': 'Submitting...',
                 'details.time':    '6:00 PM',
                 'footer.tagline':  'See you on the Seine',
                 'dressCode.label': 'Dress Code',
@@ -181,10 +382,10 @@
             },
             fr: {
                 'page.title':      'Notre Mariage à Paris',
-                'hero.subtitle':   'Rejoignez-nous pour notre mariage',
-                'hero.names':      'Alejandra et Adrian',
+                'hero.subtitle':   'Rejoignez-nous pour célébrer notre mariage',
+                'hero.names':      'Alejandra & Adrian',
                 'hero.date':       '10 octobre 2026',
-                'details.label':   'La Célébration',
+                'details.label':   'Célébration',
                 'details.title':   'Les Détails',
                 'details.intro':   'Nous sommes très heureux de célébrer ce jour si spécial avec vous sur la Seine. Retrouvez ci-dessous les informations de notre célébration.',
                 'details.when':    'Quand',
@@ -197,39 +398,85 @@
                 'travel.busDesc':  'Bus 123, direction Clamart / Pont de Billancourt. Descendre à la station Pont de Billancourt, avant de traverser la Seine. Prendre le Quai du Point du Jour sur la gauche au carrefour.',
                 'travel.carLabel': 'En Voiture',
                 'travel.carDesc':  "Depuis la Porte de Saint-Cloud, à 300 mètres de la Tour TF1, rive droite de la Seine. Direction Quartier du Point du Jour via l'avenue Pierre Grenier. Prendre à gauche au carrefour, boulevard de la République. Avant la Seine, au feu, tourner à droite.",
-                'rsvp.soon':       'RSVP Bientôt disponible',
                 'rsvp.open':       'Confirmer ma présence',
-                'rsvp.openMsg':    'Les RSVP sont ouverts !',
-                'rsvp.celebrate':  'Nous avons hâte de fêter ça avec vous !',                'details.time':    '18h00',                'footer.tagline':  'À bientôt sur la Seine',
+                'rsvp.celebrate':    'Nous avons hâte de fêter ça avec vous !',
+                'rsvp.codeHint':   'Entrez votre code d\'invitation pour commencer.',
+                'rsvp.lookup':     'Rechercher l\'invitation',
+                'rsvp.greeting':   'Bienvenue,',
+                'rsvp.attendingLabel': 'Serez-vous présent ?',
+                'rsvp.yes':        'Oui, je serai là !',
+                'rsvp.no':         'Désolé, je ne peux pas venir',
+                'rsvp.guestNamesLabel': 'Noms des invités',
+                'rsvp.guestNameLabel': 'Nom de l\'invité',
+                'rsvp.allergensPlaceholder': 'ex. gluten, lactose, fruits à coque...',
+                'rsvp.allergensLabel': 'Allergènes / Restrictions alimentaires',
+                'rsvp.submit':     'Envoyer le RSVP',
+                'rsvp.guestLimit':'Vous pouvez amener jusqu\'à {extra} invité(s) supplémentaire(s) — {total} au total avec vous.',
+                'rsvp.you':        'Vous',
+                'rsvp.childrenWelcome': 'Les enfants sont les bienvenus ! 🧒 Ajoutez-les ci-dessous.',
+                'rsvp.addGuest':   'Ajouter un invité',
+                'rsvp.errorNoCode': 'Veuillez entrer un code d\'invitation.',
+                'rsvp.errorDbConfig': 'Base de données non configurée.',
+                'rsvp.errorSelectAttending': 'Veuillez indiquer si vous serez présent.',
+                'rsvp.errorGuestLimit': 'Le nombre d\'invités dépasse votre limite.',
+                'rsvp.invalidCode':'Code d\'invitation introuvable. Veuillez vérifier et réessayer.',
+                'rsvp.error':      'Une erreur est survenue. Veuillez réessayer plus tard.',
+                'rsvp.success':    'Votre RSVP a été soumis avec succès ! Merci.',
+                'rsvp.lookupLoad': 'Recherche en cours...',
+                'rsvp.submitLoad': 'Envoi en cours...',
+                'details.time':    '18h00',
+                'footer.tagline':  'À bientôt sur la Seine',
                 'dressCode.label': 'Code vestimentaire',
                 'dressCode.text':  'Tenue élégante',
             },
             es: {
                 'page.title':      'Nuestra Boda en París',
-                'hero.subtitle':   'Acompañanos a nuestra boda',
-                'hero.names':      'Alejandra y Adrian',
+                'hero.subtitle':   'Acompáñanos a celebrar nuestra boda',
+                'hero.names':      'Alejandra & Adrian',
                 'hero.date':       '10 de octubre de 2026',
-                'details.label':   'La Celebración',
+                'details.label':   'Celebración',
                 'details.title':   'Los Detalles',
-                'details.intro':   'Estamos muy emocionados de celebrar este día tan especial con ustedes en el Sena. Acá abajo encontrarán todos los detalles de nuestra celebración.',
+                'details.intro':   'Estamos muy emocionados de celebrar este día tan especial con ustedes en el río Sena. Acá abajo encontrarán todos los detalles de nuestra celebración.',
                 'details.when':    'Cuándo',
                 'details.where':   'Dónde',
                 'details.mapsLink':'Ver en Google Maps →',
                 'details.travel':  'Cómo llegar',
                 'travel.metroLabel': 'En Metro',
                 'travel.metroDesc':  'Estación Marcel Sembat (Línea 9, dirección Pont de Sèvres)',
-                'travel.busLabel': 'En Colectivo',
-                'travel.busDesc':  'Colectivo 123, dirección Clamart / Pont de Billancourt. Bajarse en Pont de Billancourt, antes de cruzar el Sena. Tomar el Quai du Point du Jour a la izquierda en el cruce.',
+                'travel.busLabel': 'En Bus',
+                'travel.busDesc':  'Bus 123, dirección Clamart / Pont de Billancourt. Bajarse en Pont de Billancourt, antes de cruzar el río Sena. Tomar el Quai du Point du Jour a la izquierda en el cruce.',
                 'travel.carLabel': 'En Auto',
-                'travel.carDesc':  'Desde Porte de Saint-Cloud, a 300 m de la Torre TF1, orilla derecha del Sena. Dirección Quartier du Point du Jour por la Avenue Pierre Grenier. Girar a la izquierda en el cruce, Boulevard de la République. Ante el semáforo antes del Sena, girar a la derecha.',
-                'rsvp.soon':       'RSVP Próximamente',
+                'travel.carDesc':  'Desde Porte de Saint-Cloud, a 300 m de la Torre TF1, orilla derecha del río Sena. Dirección Quartier du Point du Jour por la Avenue Pierre Grenier. Girar a la izquierda en el cruce, Boulevard de la République. Ante el semáforo antes del río Sena, girar a la derecha.',
                 'rsvp.open':       'Confirmar asistencia',
-                'rsvp.openMsg':    '¡El RSVP ya está abierto!',
-                'rsvp.celebrate':  '¡Esperamos celebrarlo con ustedes!',
-                'details.time':    '18:00',
-                'footer.tagline':  'Nos vemos en el Sena',
+                'rsvp.celebrate':    '¡Esperamos celebrarla con ustedes!',
+                'rsvp.codeHint':   'Ingresa tu código de invitación para comenzar.',
+                'rsvp.lookup':     'Buscar invitación',
+                'rsvp.greeting':   '¡Bienvenido,',
+                'rsvp.attendingLabel': '¿Asistirás?',
+                'rsvp.yes':        '¡Sí, estaré allí!',
+                'rsvp.no':         'Lo siento, no podré asistir',
+                'rsvp.guestNamesLabel': 'Nombres de los invitados',
+                'rsvp.guestNameLabel': 'Nombre del invitado',
+                'rsvp.allergensPlaceholder': 'ej. gluten, lactosa, frutos secos...',
+                'rsvp.allergensLabel': 'Alérgenos / Restricciones alimentarias',
+                'rsvp.submit':     'Enviar RSVP',
+                'rsvp.guestLimit':'Puedes traer hasta {extra} invitado(s) adicional(es) — {total} en total incluyéndote a ti.',
+                'rsvp.you':        'Tú',
+                'rsvp.childrenWelcome': '¡Los niños son bienvenidos! 🧒 Agrégalos abajo.',
+                'rsvp.addGuest':   'Agregar un invitado',
+                'rsvp.errorNoCode': 'Por favor ingresa un código de invitación.',
+                'rsvp.errorDbConfig': 'Base de datos no configurada.',
+                'rsvp.errorSelectAttending': 'Por favor selecciona si asistirás.',
+                'rsvp.errorGuestLimit': 'La cantidad de invitados supera tu límite.',
+                'rsvp.invalidCode':'Código de invitación no encontrado. Verifica e intenta de nuevo.',
+                'rsvp.error':      'Algo salió mal. Intenta de nuevo más tarde.',
+                'rsvp.success':    '¡Tu RSVP se ha enviado correctamente! Gracias.',
+                'rsvp.lookupLoad': 'Buscando...',
+                'rsvp.submitLoad': 'Enviando...',
+                'details.time':    '18:00 hs.',
+                'footer.tagline':  'Nos vemos en el río Sena',
                 'dressCode.label': 'Código de vestimenta',
-                'dressCode.text':  'Vestimenta elegante',
+                'dressCode.text':  'Elegante',
             }
         };
 
@@ -269,21 +516,348 @@
         });
 
         // ─── RSVP ─────────────────────────────────────────────────────
-        const releaseDate = new Date('2026-07-15T00:00:00');
-        const today = new Date();
-        const rsvpButton = document.getElementById('rsvp-button');
-        const rsvpDateMsg = document.getElementById('rsvp-deadline');
-
-        if (today >= releaseDate) {
-            rsvpButton.disabled = false;
-            rsvpButton.classList.remove('bg-gray-300', 'cursor-not-allowed');
-            rsvpButton.classList.add('bg-[#c5a059]', 'hover:bg-[#b38f48]', 'shadow-lg', 'hover:shadow-xl');
-            rsvpButton.textContent = t['rsvp.open'];
-            if (rsvpDateMsg) rsvpDateMsg.textContent = t['rsvp.openMsg'];
-            rsvpButton.onclick = function () {
-                // window.location.href = 'YOUR_RSVP_LINK_HERE';
-            };
+        // Supabase setup
+        const SUPABASE_URL = 'https://tcfrwdqrneqxqwwsxbom.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_GhFRTeO4kqIkuU9vQPe0fg_-ju9J5c8';
+        
+        let supabaseClient = null;
+        try {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } catch (e) {
+            console.warn('Supabase client init error:', e);
         }
+
+        const rsvpButton = document.getElementById('rsvp-button');
+
+        const rsvpStepCode = document.getElementById('rsvp-step-code');
+        const rsvpStepForm = document.getElementById('rsvp-step-form');
+        const rsvpCodeInput = document.getElementById('rsvp-code-input');
+        const rsvpCodeError = document.getElementById('rsvp-code-error');
+        const rsvpLookupBtn = document.getElementById('rsvp-lookup-btn');
+        const rsvpGuestName = document.getElementById('rsvp-guest-name');
+        const rsvpGuestsNamesGroup = document.getElementById('rsvp-guests-names-group');
+        const rsvpGuestNamesContainer = document.getElementById('rsvp-guest-names-container');
+        const rsvpAddGuestBtn = document.getElementById('rsvp-add-guest-btn');
+        const rsvpAllergens = document.getElementById('rsvp-allergens');
+        const rsvpSubmitBtn = document.getElementById('rsvp-submit-btn');
+        const rsvpFormError = document.getElementById('rsvp-form-error');
+        const rsvpFormSuccess = document.getElementById('rsvp-form-success');
+
+        let currentInvitation = null; // stores the fetched row data
+
+        // Helper: get current translations
+        function getTxt(key) {
+            const currentLang = document.documentElement.lang || 'en';
+            const tr = translations[currentLang] || translations.en;
+            return tr[key] || translations.en[key] || key;
+        }
+
+        // Render the greyed-out main guest field
+        function renderMainGuest(mainGuestName) {
+            rsvpGuestNamesContainer.innerHTML = '';
+            const div = document.createElement('div');
+            div.className = 'mb-2';
+            const label = document.createElement('label');
+            label.className = 'block text-xs text-gray-500 mb-1';
+            label.textContent = getTxt('rsvp.you');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'guest-name-input w-full px-4 py-2 border border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed rounded-lg outline-none';
+            input.disabled = true;
+            input.value = mainGuestName || '';
+            input.placeholder = mainGuestName || '';
+            div.appendChild(label);
+            div.appendChild(input);
+            rsvpGuestNamesContainer.appendChild(div);
+        }
+
+        // Add an editable guest name field for an additional guest
+        function addGuestNameField(value) {
+            const maxGuests = currentInvitation ? (currentInvitation.max_guests || 0) : 0;
+            const currentCount = document.querySelectorAll('.guest-name-input').length;
+            if (currentCount >= maxGuests) return;
+
+            const container = rsvpGuestNamesContainer;
+            const idx = container.querySelectorAll('.guest-name-input').length; // includes main guest, so this is the extra number
+            const div = document.createElement('div');
+            div.className = 'mb-2 flex items-center gap-2';
+            
+            const innerDiv = document.createElement('div');
+            innerDiv.className = 'flex-1';
+            
+            const label = document.createElement('label');
+            label.className = 'block text-xs text-gray-500 mb-1';
+            label.textContent = getTxt('rsvp.guestNameLabel') + ' #' + (idx + 1);
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'guest-name-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#c5a059] focus:border-transparent outline-none transition-all';
+            input.placeholder = getTxt('rsvp.guestNameLabel') + ' #' + (idx + 1);
+            if (value) input.value = value;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'self-center text-gray-400 hover:text-red-500 transition-colors p-1';
+            removeBtn.innerHTML = '<span class="iconify w-5 h-5" data-icon="heroicons:x-mark"></span>';
+            removeBtn.setAttribute('aria-label', 'Remove guest');
+            removeBtn.addEventListener('click', function () {
+                div.remove();
+                updateAddGuestBtnState();
+            });
+            
+            innerDiv.appendChild(label);
+            innerDiv.appendChild(input);
+            div.appendChild(innerDiv);
+            div.appendChild(removeBtn);
+            container.appendChild(div);
+            updateAddGuestBtnState();
+        }
+
+        // Enable/disable the "+" button based on remaining guest slots
+        function updateAddGuestBtnState() {
+            const maxGuests = currentInvitation ? (currentInvitation.max_guests || 0) : 0;
+            const currentCount = document.querySelectorAll('.guest-name-input').length;
+            const remaining = maxGuests - currentCount;
+            const addBtn = document.getElementById('rsvp-add-guest-btn');
+            if (remaining <= 0) {
+                addBtn.disabled = true;
+                addBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                addBtn.disabled = false;
+                addBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // "+" button — add a new guest name field
+        rsvpAddGuestBtn.addEventListener('click', function () {
+            addGuestNameField('');
+        });
+
+        // Look up invitation code
+        rsvpLookupBtn.addEventListener('click', async function () {
+            const code = rsvpCodeInput.value.trim();
+            if (!code) {
+                rsvpCodeError.textContent = getTxt('rsvp.errorNoCode');
+                rsvpCodeError.classList.remove('hidden');
+                return;
+            }
+
+            if (!supabaseClient) {
+                rsvpCodeError.textContent = getTxt('rsvp.errorDbConfig');
+                rsvpCodeError.classList.remove('hidden');
+                return;
+            }
+
+            rsvpCodeError.classList.add('hidden');
+            rsvpLookupBtn.disabled = true;
+            rsvpLookupBtn.innerHTML = '<span class="inline-block animate-spin">⏳</span> ' + getTxt('rsvp.lookupLoad');
+
+            try {
+                const { data, error } = await supabaseClient.rpc('query_invite_by_code', { p_code: code });
+
+                if (error) {
+                    console.error('query_invite_by_code error:', error);
+                    rsvpCodeError.textContent = getTxt('rsvp.error');
+                    rsvpCodeError.classList.remove('hidden');
+                    rsvpLookupBtn.disabled = false;
+                    rsvpLookupBtn.innerHTML = getTxt('rsvp.lookup');
+                    return;
+                }
+
+                // query_invite_by_code should return an array (maybe single row or array)
+                const row = Array.isArray(data) && data.length > 0 ? data[0] : data;
+                if (!row || !row.first_name) {
+                    rsvpCodeError.textContent = getTxt('rsvp.invalidCode');
+                    rsvpCodeError.classList.remove('hidden');
+                    rsvpLookupBtn.disabled = false;
+                    rsvpLookupBtn.innerHTML = getTxt('rsvp.lookup');
+                    return;
+                }
+
+                // Invitation found
+                currentInvitation = row;
+                rsvpGuestName.textContent = row.first_name + ' ' + row.last_name;
+
+                // Show step 2
+                rsvpStepCode.classList.add('hidden');
+                rsvpStepForm.classList.remove('hidden');
+
+                // Pre-fill attending if exists
+                const attendingRadios = document.querySelectorAll('input[name="attending"]');
+                attendingRadios.forEach(r => r.checked = false);
+                if (row.attending !== null && row.attending !== undefined) {
+                    if (row.attending === true || row.attending === 'yes') {
+                        document.querySelector('input[name="attending"][value="yes"]').checked = true;
+                    } else if (row.attending === false || row.attending === 'no') {
+                        document.querySelector('input[name="attending"][value="no"]').checked = true;
+                    }
+                }
+
+                // Show guest names (if invitation allows guests)
+                const maxGuests = row.max_guests || 0;
+                if (maxGuests > 0) {
+                    rsvpGuestsNamesGroup.classList.remove('hidden');
+                    const mainName = (row.first_name + ' ' + row.last_name).trim();
+                    renderMainGuest(mainName);
+                    
+                    // Show guest limit info
+                    const extra = maxGuests - 1;
+                    const limitText = document.getElementById('rsvp-guest-limit-text');
+                    limitText.textContent = getTxt('rsvp.guestLimit').replace('{extra}', extra).replace('{total}', maxGuests);
+                    // Show children welcome note
+                    document.getElementById('rsvp-children-note').classList.remove('hidden');
+                    
+                    // Add existing additional guests
+                    // Parse guests — could be array, stringified JSON, or null
+                    let allNames = [];
+                    if (Array.isArray(row.guests)) {
+                        allNames = row.guests;
+                    } else if (typeof row.guests === 'string') {
+                        try { allNames = JSON.parse(row.guests); } catch (e) { /* ignore */ }
+                        if (!Array.isArray(allNames)) allNames = [];
+                    }
+                    // Filter out the main guest's name if it was stored as the first entry
+                    let extraNames = allNames;
+                    if (allNames.length > 0 && allNames[0] === mainName) {
+                        extraNames = allNames.slice(1);
+                    }
+                    extraNames.forEach(function (name) {
+                        if (name.trim()) addGuestNameField(name.trim());
+                    });
+                    updateAddGuestBtnState();
+                } else {
+                    rsvpGuestsNamesGroup.classList.add('hidden');
+                }
+
+                // Pre-fill allergens
+                rsvpAllergens.value = row.allergens || '';
+                rsvpAllergens.placeholder = getTxt('rsvp.allergensPlaceholder');
+
+                // Scroll to top of form
+                rsvpStepForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (err) {
+                console.error('Lookup error:', err);
+                rsvpCodeError.textContent = getTxt('rsvp.error');
+                rsvpCodeError.classList.remove('hidden');
+            } finally {
+                rsvpLookupBtn.disabled = false;
+                rsvpLookupBtn.innerHTML = getTxt('rsvp.lookup');
+            }
+        });
+
+        // Allow Enter key to trigger lookup
+        rsvpCodeInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') rsvpLookupBtn.click();
+        });
+
+        // (guest fields are added dynamically via the "+" button)
+
+        // Submit RSVP
+        rsvpSubmitBtn.addEventListener('click', async function () {
+            if (!supabaseClient || !currentInvitation) return;
+
+            rsvpFormError.classList.add('hidden');
+            rsvpFormSuccess.classList.add('hidden');
+            rsvpSubmitBtn.disabled = true;
+            rsvpSubmitBtn.innerHTML = '<span class="inline-block animate-spin">⏳</span> ' + getTxt('rsvp.submitLoad');
+
+            const attending = document.querySelector('input[name="attending"]:checked');
+            if (!attending) {
+                rsvpFormError.textContent = getTxt('rsvp.errorSelectAttending');
+                rsvpFormError.classList.remove('hidden');
+                rsvpSubmitBtn.disabled = false;
+                rsvpSubmitBtn.innerHTML = getTxt('rsvp.submit');
+                return;
+            }
+
+            const pAttending = attending.value === 'yes';
+            const maxGuests = currentInvitation.max_guests || 0;
+            let pGuestCount = null;
+            let pGuests = null;
+
+            if (maxGuests > 0) {
+                const inputs = document.querySelectorAll('.guest-name-input');
+                // Safety check: ensure we don't exceed the guest limit
+                if (inputs.length > maxGuests) {
+                    rsvpFormError.textContent = getTxt('rsvp.errorGuestLimit');
+                    rsvpFormError.classList.remove('hidden');
+                    rsvpSubmitBtn.disabled = false;
+                    rsvpSubmitBtn.innerHTML = getTxt('rsvp.submit');
+                    return;
+                }
+                pGuests = [];
+                // Skip the first disabled input (main guest), collect additional guests
+                for (let i = 1; i < inputs.length; i++) {
+                    const val = inputs[i].value.trim();
+                    if (val) pGuests.push(val);
+                }
+                pGuestCount = 1 + pGuests.length;
+            }
+
+            const pAllergens = rsvpAllergens.value.trim() || null;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('submit_rsvp', {
+                    p_code: rsvpCodeInput.value.trim(),
+                    p_attending: pAttending,
+                    p_guest_count: pGuestCount,
+                    p_guests: pGuests,
+                    p_allergens: pAllergens
+                });
+
+                if (error) {
+                    console.error('submit_rsvp error:', error);
+                    rsvpFormError.textContent = getTxt('rsvp.error') + (error.message ? ' (' + error.message + ')' : '');
+                    rsvpFormError.classList.remove('hidden');
+                    rsvpSubmitBtn.disabled = false;
+                    rsvpSubmitBtn.innerHTML = getTxt('rsvp.submit');
+                    return;
+                }
+
+                // Success
+                rsvpFormSuccess.textContent = getTxt('rsvp.success');
+                rsvpFormSuccess.classList.remove('hidden');
+                rsvpSubmitBtn.disabled = true;
+                rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                rsvpSubmitBtn.innerHTML = '✓ ' + getTxt('rsvp.submit');
+
+            } catch (err) {
+                console.error('Submit error:', err);
+                rsvpFormError.textContent = getTxt('rsvp.error');
+                rsvpFormError.classList.remove('hidden');
+                rsvpSubmitBtn.disabled = false;
+                rsvpSubmitBtn.innerHTML = getTxt('rsvp.submit');
+            }
+        });
+
+        // Toggle the invitation code section when button is clicked
+        rsvpButton.addEventListener('click', function () {
+            const isHidden = rsvpStepCode.classList.contains('hidden');
+            // Reset everything
+            rsvpStepCode.classList.add('hidden');
+            rsvpStepForm.classList.add('hidden');
+            rsvpCodeInput.value = '';
+            rsvpCodeError.classList.add('hidden');
+            rsvpFormError.classList.add('hidden');
+            rsvpFormSuccess.classList.add('hidden');
+            currentInvitation = null;
+            if (isHidden) {
+                rsvpStepCode.classList.remove('hidden');
+                rsvpCodeInput.focus();
+            }
+        });
+
+        // ─── Scroll Reveal ────────────────────────────────────────────
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
 </body>
 </html>
