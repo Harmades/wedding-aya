@@ -223,7 +223,37 @@
             <h3 class="text-xl font-semibold mb-2" data-i18n="dressCode.label">Dress Code</h3>
             <p class="text-gray-600" data-i18n="dressCode.text">Elegant attire</p>
         </div>
+
+        <!-- Wedding Fund -->
+        <div class="mt-16 pt-16 border-t border-gray-200 flex flex-col items-center reveal">
+            <div class="detail-icon w-14 h-14 border-2 border-[#c5a059] rounded-full flex items-center justify-center mb-4 text-[#c5a059] bg-white/80 transition-all duration-300">
+                <span class="iconify w-7 h-7" data-icon="heroicons:gift"></span>
+            </div>
+            <h3 class="text-xl font-semibold mb-2" data-i18n="gift.label">Wedding Fund</h3>
+            <p class="text-gray-600 max-w-xl" data-i18n="gift.text">Your presence is the greatest gift, but if you wish to contribute, we would love your support for our future home — physical gifts are hard to bring back to Paraguay from France.</p>
+            <a href="https://www.kagnotte.com/k/20917.html" target="_blank" rel="noopener noreferrer"
+               class="mt-6 px-8 py-3 bg-[#c5a059] hover:bg-[#b38f48] text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300" data-i18n="gift.button">
+                Contribute to our fund
+            </a>
+            <button id="gift-iban-btn" type="button"
+                    class="mt-4 px-8 py-3 border-2 border-[#c5a059] text-[#c5a059] hover:bg-[#c5a059] hover:text-white rounded-full font-semibold transition-all duration-300" data-i18n="gift.altButton">
+                Contribute via IBAN or Wero
+            </button>
+        </div>
     </section>
+
+    <!-- IBAN / Wero Popup Modal -->
+    <div id="gift-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div id="gift-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center">
+            <h3 class="text-xl font-semibold mb-3 serif" data-i18n="gift.popupTitle">Contribute via IBAN or Wero</h3>
+            <p class="text-gray-600 mb-6" data-i18n="gift.popup">Please contact Adrian or Alejandra for instructions.</p>
+            <button id="gift-modal-close" type="button"
+                    class="px-8 py-3 bg-[#c5a059] hover:bg-[#b38f48] text-white rounded-full font-semibold transition-all duration-300" data-i18n="gift.close">
+                Close
+            </button>
+        </div>
+    </div>
 
     <!-- Parallax Section (River View) -->
     <section class="parallax h-[50vh]">
@@ -380,6 +410,13 @@
                 'footer.tagline':  'See you on the Seine',
                 'dressCode.label': 'Dress Code',
                 'dressCode.text':  'Elegant attire',
+                'gift.label':      'Wedding Fund',
+                'gift.text':       'Your presence is the greatest gift, but if you wish to contribute, we would love your support for our future home — physical gifts are hard to bring back to Paraguay from France.',
+                'gift.button':     'Contribute to our fund',
+                'gift.altButton':  'Contribute via IBAN or Wero',
+                'gift.popupTitle': 'Contribute via IBAN or Wero',
+                'gift.popup':      'Please contact Adrian or Alejandra for instructions.',
+                'gift.close':      'Close',
             },
             fr: {
                 'page.title':      'Notre Mariage à Paris',
@@ -430,6 +467,13 @@
                 'footer.tagline':  'À bientôt sur la Seine',
                 'dressCode.label': 'Code vestimentaire',
                 'dressCode.text':  'Tenue élégante',
+                'gift.label':      'Cagnotte de mariage',
+                'gift.text':       'Votre présence est le plus beau des cadeaux, mais si vous souhaitez participer, nous serions ravis de votre soutien pour notre future maison — les cadeaux matériels sont difficiles à ramener au Paraguay depuis la France.',
+                'gift.button':     'Contribuer à notre cagnotte',
+                'gift.altButton':  'Contribuer par IBAN ou Wero',
+                'gift.popupTitle': 'Contribuer par IBAN ou Wero',
+                'gift.popup':      'Merci de contacter Adrian ou Alejandra pour les instructions.',
+                'gift.close':      'Fermer',
             },
             es: {
                 'page.title':      'Nuestra Boda en París',
@@ -480,6 +524,13 @@
                 'footer.tagline':  'Nos vemos en el río Sena',
                 'dressCode.label': 'Código de vestimenta',
                 'dressCode.text':  'Elegante',
+                'gift.label':      'Fondo de boda',
+                'gift.text':       'Su presencia es el mejor regalo, pero si desean contribuir, agradeceríamos su apoyo para nuestra futura casa — los regalos físicos son difíciles de llevar de Francia a Paraguay.',
+                'gift.button':     'Contribuir a nuestro fondo',
+                'gift.altButton':  'Contribuir por IBAN o Wero',
+                'gift.popupTitle': 'Contribuir por IBAN o Wero',
+                'gift.popup':      'Por favor contacta a Adrian o Alejandra para las instrucciones.',
+                'gift.close':      'Cerrar',
             }
         };
 
@@ -861,6 +912,30 @@
         }, { threshold: 0.15 });
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ─── IBAN / Wero Popup ───────────────────────────────────────
+        const giftModal = document.getElementById('gift-modal');
+        const giftIbanBtn = document.getElementById('gift-iban-btn');
+        const giftModalClose = document.getElementById('gift-modal-close');
+        const giftModalBackdrop = document.getElementById('gift-modal-backdrop');
+
+        function openGiftModal() {
+            giftModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGiftModal() {
+            giftModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        if (giftIbanBtn) giftIbanBtn.addEventListener('click', openGiftModal);
+        if (giftModalClose) giftModalClose.addEventListener('click', closeGiftModal);
+        if (giftModalBackdrop) giftModalBackdrop.addEventListener('click', closeGiftModal);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && giftModal && !giftModal.classList.contains('hidden')) {
+                closeGiftModal();
+            }
+        });
     </script>
 </body>
 </html>
